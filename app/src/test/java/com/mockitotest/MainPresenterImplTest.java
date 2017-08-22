@@ -84,4 +84,17 @@ public class MainPresenterImplTest {
 
         verify(mView).showSuccess();
     }
+
+    @Test
+    public void testStringIntern() {
+        String s = new String("1111");
+        s.intern();
+        String s2 = "1111";
+
+        System.out.print(s == s2);
+        System.out.print("\n");
+        System.out.println(s.equals(s2));
+
+        Assert.assertEquals(s, s2);
+    }
 }

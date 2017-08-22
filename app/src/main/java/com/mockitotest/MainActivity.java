@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainContact.MainV
         mMainPresenter.getUsers();
 
         mLanguageList = Arrays.asList("Java", "Android", "Kotlin", "Linux", "Gradle", "C++"
-                , "C", "Python", "Shell", "Unix", "Go", "C#", "JavaScript"
-                , "C", "Python", "Shell", "Unix", "Go", "C#", "JavaScript");
+                , "C#", "Python1", "Shell1", "Unix1", "Go1", "C###", "JavaScript1");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new CustomAdapter(this, mLanguageList);

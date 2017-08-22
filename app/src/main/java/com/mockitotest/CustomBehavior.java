@@ -1,6 +1,5 @@
 package com.mockitotest;
 
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -66,6 +65,9 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<RecyclerView> {
             case MotionEvent.ACTION_UP:
                 handleUpOrCancelEvent(child);
                 break;
+            case MotionEvent.ACTION_CANCEL:
+                handleUpOrCancelEvent(child);
+                break;
         }
         return true;
     }
@@ -77,7 +79,7 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<RecyclerView> {
     private boolean isCanScaleImage(int diff) {
         boolean isCanScale = false;
         int top = mDependencyView.getTop();
-        if (diff < 0) {
+        if (diff < 0 || mIsScaleImage) {
             if (top == 0) {
                 isCanScale = true;
             } else {
@@ -101,15 +103,15 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<RecyclerView> {
         mStartY = mPrefMoveY;
 
         if (isCanScaleImage(mDiff)) {
-            if (!mIsScaleImage) {
-                mIsScaleImage = true;
+            if (mMoveY > 0) {
+                mIsScaleImage = false;
+                return;
             }
+            mIsScaleImage = true;
             ViewCompat.setScaleX(mDependencyView, 1 - (float) mMoveY / (float) (mDependencyHeight / 2));
             ViewCompat.setScaleY(mDependencyView, 1 - (float) mMoveY / (float) (mDependencyHeight / 2));
         } else {
-            if (mIsScaleImage) {
-                mIsScaleImage = false;
-            }
+            mIsScaleImage = false;
             ViewCompat.offsetTopAndBottom(mDependencyView, -mDiff);
         }
         ViewCompat.offsetTopAndBottom(child, -mDiff);
@@ -121,6 +123,7 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<RecyclerView> {
             startChildAnimation(child);
             mMoveY = 0;
             mStartY = 0;
+            mIsScaleImage = false;
         }
     }
 
